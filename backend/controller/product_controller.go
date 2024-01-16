@@ -19,10 +19,10 @@ func NewProductController(db *gorm.DB) (*ProductController, error) {
 	}, nil
 }
 func (p *ProductController) Register(r *gin.Engine) {
-	r.GET("/product", p.ListProducts)
-	r.POST("/product", p.CreateProduct)
-	r.PUT("/product", p.UpdateProduct)
-	r.DELETE("/product", p.DeleteProduct)
+	r.GET("/api/product", p.ListProducts)
+	r.POST("/api/product", p.CreateProduct)
+	r.PUT("/api/product", p.UpdateProduct)
+	r.DELETE("/api/product", p.DeleteProduct)
 }
 func (p *ProductController) ListProducts(c *gin.Context) {
 	res, err := p.productRepo.ListVeganProduct(p.db)

@@ -1,0 +1,39 @@
+# Default values for vegan.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+vegan:
+  fullName: vegan
+  backend:
+    port: 8080
+    serverPort: 8080
+    nodePort: 30001
+    labels: 
+      app: veganbackend
+    selectorLabels:
+      app: veganbackend
+    replicaCount: 1
+    image:
+      repository: tjm1999/xm0091-backend
+      pullPolicy: IfNotPresent
+      tag: 0.1
+  frontend:
+    port: 80
+    serverPort: 80
+    nodePort: 30000
+    labels: 
+      app: veganfrontend
+    selectorLabels:
+      app: veganfrontend
+    image:
+      replicaCount: 1
+      repository: tjm1999/xm0091-frontend
+      pullPolicy: IfNotPresent
+      tag: 0.1
+  
+
+# global settings
+podAnnotations: {}
+podLabels: {}
+autoscaling:
+  enabled: false

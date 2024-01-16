@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.vegan.fullName }}-frontend
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{ toYaml .Values.vegan.frontend.labels }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{ toYaml .Values.vegan.frontend.selectorLabels }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{ toYaml .Values.vegan.frontend.labels }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}-frontend
+          image:  {{ .Values.vegan.frontend.image.repository }}:{{ .Values.vegan.frontend.image.tag }}
+          imagePullPolicy: {{ .Values.vegan.frontend.image.pullPolicy }}
+          livenessProbe:
+            tcpSocket:
+              port: {{ .Values.vegan.frontend.serverPort }}
+            initialDelaySeconds: 45
+            timeoutSeconds: 45
+            successThreshold: 1
+            failureThreshold: 3
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: {{ .Values.vegan.frontend.serverPort }}
+            initialDelaySeconds: 9
+            timeoutSeconds: 2
+            successThreshold: 1
+            failureThreshold: 3
+            periodSeconds: 10
+          ports:
+            - containerPort:  {{ .Values.vegan.frontend.serverPort }}
+              name: http
+          volumeMounts:
+            - name: cmveganfront
+              mountPath: /etc/nginx/conf.d/default.conf
+              subPath: default.conf
+              readOnly: true
+      volumes:
+        - name: cmveganfront
+          configMap:
+            name: vegan-frontend-cm

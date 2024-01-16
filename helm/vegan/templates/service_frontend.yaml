@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: {{ .Values.vegan.fullName }}-frontend-svc
+spec:
+  selector:
+     {{ toYaml .Values.vegan.frontend.labels }}
+  type: NodePort
+  ports:
+    - port: {{ .Values.vegan.frontend.port }}
+      targetPort: {{ .Values.vegan.frontend.serverPort }}
+      nodePort: {{ .Values.vegan.frontend.nodePort }}

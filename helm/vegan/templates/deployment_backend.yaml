@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: {{ .Values.vegan.fullName }}-backend
+  labels:
+    {{ toYaml .Values.vegan.backend.labels }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{ toYaml .Values.vegan.backend.selectorLabels }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{ toYaml .Values.vegan.backend.labels }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}-backend
+          image: "{{ .Values.vegan.backend.image.repository }}:{{ .Values.vegan.backend.image.tag }}"
+          imagePullPolicy: {{ .Values.vegan.backend.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.vegan.backend.serverPort }}
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: {{ .Values.vegan.backend.serverPort }} 
+            initialDelaySeconds: 110
+            timeoutSeconds: 120
+            successThreshold: 1
+            failureThreshold: 3
+            periodSeconds: 10
+          readinessProbe: 
+            tcpSocket:
+              port: {{ .Values.vegan.backend.serverPort }}
+            initialDelaySeconds: 110
+            timeoutSeconds: 120
+            successThreshold: 1
+            failureThreshold: 3
+            periodSeconds: 10
+          env:
+            - name: DSN
+              valueFrom:
+                configMapKeyRef:
+                  name: vegan-backend-cm
+                  key: dsn
+      

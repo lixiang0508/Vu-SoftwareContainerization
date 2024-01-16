@@ -4,10 +4,16 @@ metadata:
   name: vegan-ingress
   namespace: {{ .Release.Namespace }}
   annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
+
+  tls:
+    - hosts:
+      - vegan.test
+      secretName: tls-secret
   rules:
-  - http:
+  - host: vegan.test
+    http:
       paths:
       - path: /api/
         pathType: Prefix

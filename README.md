@@ -1,7 +1,10 @@
 # Vu-SoftwareContainerization
-## Procedures to deploy this project
+## 1.Illustration of the project structure
+T.B.D
+
+## 2.Procedures to deploy this project
 *NB: Unless specified, all the commands are executed in the main folder*
-### Prerequisites
+### 2.1 Prerequisites
 #### Build the images
 Build frontend image: in frontend folder, execute
 ```
@@ -13,8 +16,7 @@ Build backend image: in backend folder, execute
 docker buildx build --platform linux/amd64,linux/arm64 -t tjm1999/xm0091-backend:0.1 . --push
 ```
 
-
-### Deployment 
+### 2.2 Deployment 
 ### Step 1. Start a k8s cluster in minikube
 ```shell
 minikube start

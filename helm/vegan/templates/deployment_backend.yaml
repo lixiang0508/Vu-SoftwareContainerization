@@ -4,7 +4,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   name: {{ .Values.vegan.fullName }}-backend
   labels:
-    {{ toYaml .Values.vegan.backend.labels }}
+    {{- toYaml .Values.vegan.backend.labels | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
@@ -19,7 +19,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{ toYaml .Values.vegan.backend.labels }}
+        {{- toYaml .Values.vegan.backend.labels | nindent 8}}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}

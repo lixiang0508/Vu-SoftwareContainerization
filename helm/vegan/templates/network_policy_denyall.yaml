@@ -1,0 +1,11 @@
+{{ if eq .Values.vegan.networkPolicy "denyall" }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: network-vegan
+  namespace: {{ .Release.Namespace }}
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+{{ end }}   

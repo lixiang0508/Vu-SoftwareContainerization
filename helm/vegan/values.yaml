@@ -3,6 +3,7 @@
 # Declare variables to be passed into your templates.
 
 vegan:
+  networkPolicy: "allowall"
   fullName: vegan
   backend:
     port: 8080
@@ -10,6 +11,7 @@ vegan:
     nodePort: 30001
     labels: 
       app: veganbackend
+      prj: vegan
     selectorLabels:
       app: veganbackend
     replicaCount: 1
@@ -23,6 +25,7 @@ vegan:
     nodePort: 30000
     labels: 
       app: veganfrontend
+      prj: vegan
     selectorLabels:
       app: veganfrontend
     image:

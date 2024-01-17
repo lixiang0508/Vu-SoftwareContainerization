@@ -5,7 +5,7 @@ metadata:
   name: {{ .Values.vegan.fullName }}-frontend-svc
 spec:
   selector:
-     {{ toYaml .Values.vegan.frontend.labels }}
+     {{- toYaml .Values.vegan.frontend.labels | nindent 4}}
   type: NodePort
   ports:
     - port: {{ .Values.vegan.frontend.port }}

@@ -6,8 +6,13 @@ metadata:
   labels:
     {{- toYaml .Values.vegan.backend.labels | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.vegan.backend.replicaCount }}
+  {{- if .Values.autoscaling.enabled }}
+  strategy:
+    rollingUpdate:
+      maxSurge: 30%
+      maxUnavailable: 25%
+    type: RollingUpdate
   {{- end }}
   selector:
     matchLabels:

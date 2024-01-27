@@ -26,7 +26,7 @@ This project requires an existing database. In reality, it is normal to have one
 
 #### Step 2.1 Create a persistent volume
 ```shell
-kubectl apply -f cluster-configuration/persistent_colume.yaml
+kubectl apply -f cluster-configuration/persistent_volume.yaml
 ```
 #### Step 2.2 Create a mysql database
 - cluster-configuration/mysql/config_map.yaml is the ConfigMap resource which specified the mysqld configuration file, and will be mounted to the container.

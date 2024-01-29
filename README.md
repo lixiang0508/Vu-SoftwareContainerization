@@ -41,7 +41,9 @@ kubectl apply -f cluster-configuration/persistent_volume.yaml
     -f cluster-configuration/mysql/mysql.yaml \
 ```
 
-### Step3 Create tusers for the k8s cluster
+After that, connect to this DB and create a database called 'vegan'.
+
+### Step3 Create users for the k8s cluster
 
 First, we are going to create a user called 'viewer' as an example illustrating what command we used in this assignment. In the helm charts, this user will be mounted with the role "viewer".
 
@@ -93,15 +95,22 @@ openssl x509 -req -CA ca.crt -CAkey ca.key -CAcreateserial \
 Now we can see the server's key: server.key and the certificate: server.csr.
 They will be encoded into base64 format and stored in the secret, which will be mounted on the ingress.
 ### Step4.3 Start the ingress controller
-install the nginx ingress
+install the nginx ingress addons
 ```
 minikube addons enable ingress 
 ```
 
-create the tunnel to expose the ingress's endpoint
+When we want to visit this ingress later, we need tocreate the tunnel to expose the ingress's endpoint
 ```
 minikube tunnel 
 ```
+
+### Step 5: Use Helm to install
+The helm chart is in helm/vegan.
+- Execute `helm install vegan helm/vegan` to directly install it
+- Execute `helm uninstall vegan` to directly uninstall it
+- Modify values in values.yaml and then execute `helm upgrade vegan helm/vegan` to upgrade is. (You may want to set autoscaling.enabled=true in values.yaml)
+- Execute `helm template vegan ./helm/vegan  --debug   > test.yaml` to see the k8s config rendered by helm
 
 
 

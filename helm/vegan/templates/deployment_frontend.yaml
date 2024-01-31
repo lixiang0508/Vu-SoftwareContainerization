@@ -36,7 +36,7 @@ spec:
           livenessProbe:
             tcpSocket:
               port: {{ .Values.vegan.frontend.serverPort }}
-            initialDelaySeconds: 45
+            initialDelaySeconds: 10
             timeoutSeconds: 45
             successThreshold: 1
             failureThreshold: 3
@@ -44,7 +44,7 @@ spec:
           readinessProbe:
             tcpSocket:
               port: {{ .Values.vegan.frontend.serverPort }}
-            initialDelaySeconds: 9
+            initialDelaySeconds: 10
             timeoutSeconds: 2
             successThreshold: 1
             failureThreshold: 3

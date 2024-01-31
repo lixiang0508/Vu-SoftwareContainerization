@@ -38,20 +38,22 @@ spec:
               containerPort: {{ .Values.vegan.backend.serverPort }}
               protocol: TCP
           livenessProbe:
-            tcpSocket:
+            httpGet:
+              path: /api/product
               port: {{ .Values.vegan.backend.serverPort }} 
-            initialDelaySeconds: 110
-            timeoutSeconds: 120
+            initialDelaySeconds: 20
+            timeoutSeconds: 10
             successThreshold: 1
-            failureThreshold: 3
+            failureThreshold: 5
             periodSeconds: 10
           readinessProbe: 
-            tcpSocket:
-              port: {{ .Values.vegan.backend.serverPort }}
-            initialDelaySeconds: 110
-            timeoutSeconds: 120
+            httpGet:
+              path: /api/product
+              port: {{ .Values.vegan.backend.serverPort }} 
+            initialDelaySeconds: 20
+            timeoutSeconds: 10
             successThreshold: 1
-            failureThreshold: 3
+            failureThreshold: 5
             periodSeconds: 10
           env:
             - name: DSN

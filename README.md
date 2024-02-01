@@ -43,6 +43,39 @@ kubectl apply -f cluster-configuration/persistent_volume.yaml
 
 After that, connect to this DB and create a database called 'vegan'.
 
+```
+kubectl get pods
+```
+Get the name of mysql pod.
+```
+kubectl exec -it <mysql-pod-name> -- /bin/bash
+
+```
+Enter mysql pod
+
+
+```
+mysql -u root -p
+```
+Enter the password
+
+
+```
+CREATE DATABASE vegan;
+```
+Execute this command to build a database named vegan
+
+```
+exit;
+```
+Exit MySQL client
+
+```
+exit
+```
+Exit the pod
+
+
 ### Step3 Create users for the k8s cluster
 
 First, we are going to create a user called 'viewer' as an example illustrating what command we used in this assignment. In the helm charts, this user will be mounted with the role "viewer".
@@ -112,8 +145,16 @@ The helm chart is in helm/vegan.
 - Modify values in values.yaml and then execute `helm upgrade vegan helm/vegan` to upgrade is. (You may want to set autoscaling.enabled=true in values.yaml)
 - Execute `helm template vegan ./helm/vegan  --debug   > test.yaml` to see the k8s config rendered by helm
 
+## 3. Security
+### 3.1 Network policies
+Please check helm/vegan/templates/network_policy_allowall.yaml, helm/vegan/templates/network_policy_blacklist.yaml, helm/vegan/templates/deny_all.yaml and helm/vegan/templates/white_list.yaml
+
+### 3.2 RBAC
+Please check helm/vegan/templates/roles.yaml and helm/vegan/templates/rolebinding.yaml.
 
 
+## 4. GCP 
+Deploy to GCP is quite similar to local deployment. Connect to Google Cloud Shell terminal and git pull this repository, then execute everything above except commands related to  minikube. 
 
 
 
